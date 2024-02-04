@@ -1,11 +1,13 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 
 const DepartmentCard = () => {
   let modal = useRef(null);
   let [departments, setDepartments] = useState([]);
+
   const {
     register,
     handleSubmit,
@@ -26,7 +28,7 @@ const DepartmentCard = () => {
       .then(data => {
         if (data.acknowledged) {
           alert("Department added successfully");
-          modal.current.style = "display:none";
+          modal.current.close();
         }
       });
   };
@@ -38,7 +40,7 @@ const DepartmentCard = () => {
         setDepartments(data);
       });
   }, [departments]);
-  console.log(departments);
+
   return (
     <section className="container mx-auto">
       <h1 className="text-5xl font-semibold text-center my-4">Departments</h1>
@@ -59,7 +61,6 @@ const DepartmentCard = () => {
               <div className="my-3">
                 <label htmlFor="">Name of the department</label>
                 <input
-                  defaultValue="test"
                   {...register("departmentName")}
                   className="input input-bordered input-primary w-full max-w-xs"
                 />
@@ -94,7 +95,9 @@ const DepartmentCard = () => {
               <h2 className="card-title">{item.departmentName}</h2>
               <p>{item.departmentDetails}</p>
               <div className="card-actions justify-end">
-                <button className="btn">Details</button>
+                <button className="btn">
+                  <Link href={`/dept/${item._id}`}>Details</Link>
+                </button>
               </div>
             </div>
           </div>
