@@ -1,0 +1,107 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import { useForm } from "react-hook-form";
+
+const DepartmentCard = () => {
+  let modal = useRef(null);
+  let [departments, setDepartments] = useState([]);
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = async data => {
+    console.log(data);
+    await fetch("https://hrm-server-hlrg.vercel.app/addDepartment", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.acknowledged) {
+          alert("Department added successfully");
+          modal.current.style = "display:none";
+        }
+      });
+  };
+
+  useEffect(() => {
+    fetch("https://hrm-server-hlrg.vercel.app/departments")
+      .then(res => res.json())
+      .then(data => {
+        setDepartments(data);
+      });
+  }, [departments]);
+  console.log(departments);
+  return (
+    <section className="container mx-auto">
+      <h1 className="text-5xl font-semibold text-center my-4">Departments</h1>
+      {/* Open the modal using document.getElementById('ID').showModal() method */}
+      <button
+        className="btn btn-accent mx-auto block my-5"
+        onClick={() => document.getElementById("my_modal_5").showModal()}>
+        Add Department
+      </button>
+      <dialog
+        id="my_modal_5"
+        ref={modal}
+        className="modal modal-bottom sm:modal-middle">
+        <div className="modal-box">
+          <h3 className="font-bold text-lg">Add departments</h3>
+          <div className="py-4">
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div className="my-3">
+                <label htmlFor="">Name of the department</label>
+                <input
+                  defaultValue="test"
+                  {...register("departmentName")}
+                  className="input input-bordered input-primary w-full max-w-xs"
+                />
+              </div>
+
+              {/* include validation with required or other standard HTML validation rules */}
+              <div className="my-3">
+                <label htmlFor="">Department details</label>
+                <textarea
+                  {...register("departmentDetails", { required: true })}
+                  className="textarea textarea-primary block w-full max-w-xs"
+                />
+              </div>
+              {/* errors will return when field validation fails  */}
+              {errors.exampleRequired && <span>This field is required</span>}
+
+              <input className="btn block" type="submit" />
+            </form>
+          </div>
+          <div className="modal-action">
+            <form method="dialog">
+              {/* if there is a button in form, it will close the modal */}
+              <button className="btn "> Close</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
+      <div className="grid grid-cols-3 my-5 gap-5">
+        {departments.map(item => (
+          <div className="card w-96 bg-primary text-primary-content">
+            <div className="card-body">
+              <h2 className="card-title">{item.departmentName}</h2>
+              <p>{item.departmentDetails}</p>
+              <div className="card-actions justify-end">
+                <button className="btn">Details</button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+};
+
+export default DepartmentCard;
