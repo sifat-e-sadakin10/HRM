@@ -88,7 +88,7 @@ const DepartmentCard = () => {
           </div>
         </div>
       </dialog>
-      <div className="grid grid-cols-3 my-5 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-3 my-5 gap-5">
         {departments.map(item => (
           <div className="card w-96 bg-primary text-primary-content">
             <div className="card-body">
