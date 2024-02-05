@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -39,7 +40,7 @@ const DepartmentDetails = ({ params }) => {
         setDept(data);
       });
 
-    fetch(`https://hrm-server-hlrg.vercel.app/employees/${dept.departmentName}`)
+    fetch(`https://hrm-server-hlrg.vercel.app/employees/${dept.companyName}`)
       .then(res => res.json())
       .then(data => {
         setEmployees(data);
@@ -49,14 +50,20 @@ const DepartmentDetails = ({ params }) => {
   return (
     <section className="container mx-auto">
       <h1 className="text-5xl font-semibold text-center my-4">
-        {dept.departmentName}
+        {dept.companyName}
       </h1>
-      <p className="text-center">{dept.departmentDetails}</p>
-      <button
-        className="btn btn-accent mx-auto block my-5"
-        onClick={() => document.getElementById("my_modal_1").showModal()}>
-        Add Employee
-      </button>
+      <p className="text-center">{dept.companyDetails}</p>
+      <div className="flex justify-center gap-6">
+        {" "}
+        <button
+          className="btn btn-accent  block my-5"
+          onClick={() => document.getElementById("my_modal_1").showModal()}>
+          New Position
+        </button>
+        <button className="btn btn-accent  block my-5">
+          <Link href={`/candidates/${dept.companyName}`}>Employee List</Link>
+        </button>
+      </div>
       <dialog
         id="my_modal_1"
         ref={modal}
@@ -66,11 +73,11 @@ const DepartmentDetails = ({ params }) => {
           <div className="py-4">
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="my-3">
-                <label htmlFor="">Department</label>
+                <label htmlFor="">Company</label>
                 <input
-                  {...register("department")}
+                  {...register("company")}
                   className="input input-bordered block input-primary w-full max-w-xs"
-                  value={dept.departmentName}
+                  value={dept.companyName}
                 />
               </div>
               <div className="my-3">
@@ -83,19 +90,14 @@ const DepartmentDetails = ({ params }) => {
 
               {/* include validation with required or other standard HTML validation rules */}
               <div className="my-3">
-                <label htmlFor="">Name</label>
+                <label htmlFor="">Salary</label>
                 <input
-                  {...register("name", { required: true })}
+                  type="number"
+                  {...register("salary", { required: true })}
                   className="input input-primary block w-full max-w-xs"
                 />
               </div>
-              <div className="my-3">
-                <label htmlFor="">email</label>
-                <input
-                  {...register("email", { required: true })}
-                  className="input input-primary block w-full max-w-xs"
-                />
-              </div>
+
               {/* errors will return when field validation fails  */}
               {errors.exampleRequired && <span>This field is required</span>}
 
@@ -117,10 +119,10 @@ const DepartmentDetails = ({ params }) => {
             <thead>
               <tr>
                 <th></th>
-                <th>Department</th>
+                <th>Company</th>
                 <th>Designation</th>
-                <th>Name</th>
-                <th>Email</th>
+                <th>Salary</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -128,10 +130,16 @@ const DepartmentDetails = ({ params }) => {
               {employees.map((item, index) => (
                 <tr key={item._id}>
                   <th>{index + 1}</th>
-                  <td>{item.department}</td>
+                  <td>{item.company}</td>
                   <td>{item.designation}</td>
-                  <td>{item.name}</td>
-                  <td>{item.email}</td>
+                  <td>{item.salary}</td>
+                  <td>
+                    <Link
+                      className="btn-sm btn-ghost"
+                      href={`/employee/${item._id}`}>
+                      add
+                    </Link>
+                  </td>
                 </tr>
               ))}
             </tbody>

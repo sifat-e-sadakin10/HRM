@@ -43,34 +43,34 @@ const DepartmentCard = () => {
 
   return (
     <section className="container mx-auto">
-      <h1 className="text-5xl font-semibold text-center my-4">Departments</h1>
+      <h1 className="text-5xl font-semibold text-center my-4">Company List</h1>
       {/* Open the modal using document.getElementById('ID').showModal() method */}
       <button
         className="btn btn-accent mx-auto block my-5"
         onClick={() => document.getElementById("my_modal_5").showModal()}>
-        Add Department
+        New Company
       </button>
       <dialog
         id="my_modal_5"
         ref={modal}
         className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
-          <h3 className="font-bold text-lg">Add departments</h3>
+          <h3 className="font-bold text-lg">Add Company</h3>
           <div className="py-4">
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="my-3">
-                <label htmlFor="">Name of the department</label>
+                <label htmlFor="">Name of the Company</label>
                 <input
-                  {...register("departmentName")}
+                  {...register("companyName")}
                   className="input input-bordered input-primary w-full max-w-xs"
                 />
               </div>
 
               {/* include validation with required or other standard HTML validation rules */}
               <div className="my-3">
-                <label htmlFor="">Department details</label>
+                <label htmlFor=""> Company details</label>
                 <textarea
-                  {...register("departmentDetails", { required: true })}
+                  {...register("companyDetails", { required: true })}
                   className="textarea textarea-primary block w-full max-w-xs"
                 />
               </div>
@@ -92,8 +92,8 @@ const DepartmentCard = () => {
         {departments.map(item => (
           <div className="card w-96 bg-primary text-primary-content">
             <div className="card-body">
-              <h2 className="card-title">{item.departmentName}</h2>
-              <p>{item.departmentDetails}</p>
+              <h2 className="card-title">{item.companyName}</h2>
+              <p>{item.companyDetails}</p>
               <div className="card-actions justify-end">
                 <button className="btn">
                   <Link href={`/dept/${item._id}`}>Details</Link>
