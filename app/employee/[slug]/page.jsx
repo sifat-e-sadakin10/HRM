@@ -18,6 +18,7 @@ const page = ({ params }) => {
       company: employee.company,
       designation: employee.designation,
       salary: employee.salary,
+      department: employee.department,
     };
 
     await fetch("https://hrm-server-hlrg.vercel.app/addCandidate", {
@@ -56,6 +57,7 @@ const page = ({ params }) => {
               value={employee.company}
             />
           </div>
+
           <div className="my-3">
             <label htmlFor="">Designation</label>
             <input

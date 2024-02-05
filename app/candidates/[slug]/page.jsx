@@ -23,6 +23,7 @@ const page = ({ params }) => {
           <tr>
             <th></th>
             <th>Company</th>
+            <th>Dept</th>
             <th>Designation</th>
             <th>Name</th>
             <th>Email</th>
@@ -36,6 +37,7 @@ const page = ({ params }) => {
             <tr key={item._id}>
               <th>{index + 1}</th>
               <td>{item.company}</td>
+              <td>{item.department}</td>
               <td>{item.designation}</td>
               <td>{item.Name}</td>
               <td>{item.email}</td>

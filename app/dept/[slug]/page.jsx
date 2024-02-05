@@ -81,6 +81,13 @@ const DepartmentDetails = ({ params }) => {
                 />
               </div>
               <div className="my-3">
+                <label htmlFor="">Department</label>
+                <input
+                  className="input input-bordered block input-primary w-full max-w-xs"
+                  {...register("department", { required: true })}
+                />
+              </div>
+              <div className="my-3">
                 <label htmlFor="">Designation</label>
                 <input
                   {...register("designation")}
@@ -120,6 +127,7 @@ const DepartmentDetails = ({ params }) => {
               <tr>
                 <th></th>
                 <th>Company</th>
+                <th>Department</th>
                 <th>Designation</th>
                 <th>Salary</th>
                 <th></th>
@@ -131,6 +139,7 @@ const DepartmentDetails = ({ params }) => {
                 <tr key={item._id}>
                   <th>{index + 1}</th>
                   <td>{item.company}</td>
+                  <td>{item.department}</td>
                   <td>{item.designation}</td>
                   <td>{item.salary}</td>
                   <td>
